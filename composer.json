@@ -1,5 +1,5 @@
 {
-    "name": "shade/schema-info",
+    "name": "shadetheartist/schema-info",
     "type": "library",
     "description": "Analyze and navigate a databases' structure using a simple fluent api",
     "keywords": ["schema", "info", "database", "analysis"],
