@@ -1,0 +1,19 @@
+{
+    "name": "shade/schema-info",
+    "type": "library",
+    "description": "Analyze and navigate a databases' structure using a simple fluent api",
+    "keywords": ["schema", "info", "database", "analysis"],
+    "license": "MIT",
+    "authors": [{
+        "name": "Derek Hemingson",
+        "email": "shadetheartist@gmail.com"
+    }],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "SchemaInfo": "src/"
+        }
+    }
+}
