@@ -53,5 +53,4 @@ $column->info();
 
 //get the table the column belongs to.
 $parentTable = $column->table();
-
-``
+```
