@@ -9,6 +9,7 @@ abstract class Column
 	protected $builder = null;
 	protected $table   = null;
 	protected $name    = null;
+	protected $info    = null;
 	
 	public function __construct(TableInterface $table, $name)
 	{
@@ -19,16 +20,21 @@ abstract class Column
 	
 	public function info()
 	{
-		$info = $this->builder->columnInfo($this->table->getName(), $this->name);
-		
-		if (count($info) == false)
+		if ($this->info == null)
 		{
-			$name         = $this->name;
-			$databaseName = $this->builder->getConnection()->getDatabaseName();
-			throw new \Exception("No table [$name] exists in database [" . $databaseName . "]");
+			$info = $this->builder->columnInfo($this->table->getName(), $this->name);
+			
+			if (count($info) == false)
+			{
+				$name         = $this->name;
+				$databaseName = $this->builder->getConnection()->getDatabaseName();
+				throw new \Exception("No table [$name] exists in database [" . $databaseName . "]");
+			}
+			
+			$this->info = reset($info);
 		}
 		
-		return reset($info);
+		return $this->info;
 	}
 	
 	function __get($propertyName)

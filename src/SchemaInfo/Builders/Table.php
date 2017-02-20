@@ -4,7 +4,6 @@ use SchemaInfo\Schema;
 
 abstract class Table implements TableInterface
 {
-	
 	/**
 	 * Serves to shorten the amount of calls to $this->getSchema()->getBuilder()
 	 * @var \Illuminate\Database\Schema\Builder
@@ -14,9 +13,11 @@ abstract class Table implements TableInterface
 	/**
 	 * @var Schema
 	 */
-	protected $schema = null;
-	
-	protected $name = null;
+	protected $schema           = null;
+	protected $name             = null;
+	protected $info             = null;
+	protected $columns          = [];
+	protected $allColumnsCached = false;
 	
 	public function __construct(Schema $schema, $name)
 	{
@@ -43,47 +44,67 @@ abstract class Table implements TableInterface
 	
 	function column($column)
 	{
-		return $this->builder->makeColumn($this, $column);
+		if (isset($this->columns[$column]) == false)
+		{
+			$this->columns[$column] = $this->builder->makeColumn($this, $column);
+		}
+		
+		return $this->columns[$column];
 	}
 	
-	function columns()
+	function columns($columns = [])
 	{
-		$columns = [];
+		if ($this->allColumnsCached)
+		{
+			return $this->columns;
+		}
 		
+		if (count($columns))
+		{
+			foreach ($columns as $column)
+			{
+				$this->builder->makeColumn($this, $column);
+			}
+		}
+		
+		return $this->allColumns();
+	}
+	
+	private function allColumns()
+	{
 		$columnNames = $this->builder->columnNamesForTable($this->getName());
 		
 		foreach ($columnNames as $columnName)
 		{
-			$columns[] = $this->builder->makeColumn($this, $columnName);
+			$this->column($columnName);
 		}
 		
-		return $columns;
+		$this->allColumnsCached = true;
+		
+		return $this->columns;
 	}
 	
 	public function info()
 	{
-		$info = $this->builder->tableInfo($this->name);
-		
-		if (count($info) == false)
+		if ($this->info == null)
 		{
-			$name         = $this->name;
-			$databaseName = $this->builder->getConnection()->getDatabaseName();
-			throw new \Exception("No table [$name] exists in database [" . $databaseName . "]");
+			$info = $this->builder->tableInfo($this->name);
+			
+			if (count($info) == false)
+			{
+				$name         = $this->name;
+				$databaseName = $this->builder->getConnection()->getDatabaseName();
+				throw new \Exception("No table [$name] exists in database [" . $databaseName . "]");
+			}
+			$this->info = reset($info);
 		}
 		
-		return reset($info);
+		return $this->info;
 	}
 	
 	function __get($propertyName)
 	{
-		$info = $this->info();
-		
-		if (property_exists($info, $propertyName) == false)
-		{
-			throw new \Exception("No property [$propertyName] exists for table [" . $this->name . "]");
-		}
-		
-		return $info->$propertyName;
+		return $this->column($propertyName);
 	}
 	
 }

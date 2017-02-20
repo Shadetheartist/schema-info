@@ -26,6 +26,6 @@ interface BuilderInterface
 	public function columnsForTable($table);
 	
 	public function columnNamesForTable($table);
-
+	
 	public function columnInfo($table, $column);
 }
