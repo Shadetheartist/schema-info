@@ -2,9 +2,9 @@
     "name": "shadetheartist/schema-info",
     "type": "library",
     "description": "Analyze and navigate a databases' structure using a simple fluent api",
-    "keywords": ["schema", "info", "database", "analysis"],
+    "keywords": ["schema", "info", "database", "analysis", "mysql"],
     "license": "MIT",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "authors": [{
         "name": "Derek Hemingson",
         "email": "shadetheartist@gmail.com"
