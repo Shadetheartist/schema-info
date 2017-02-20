@@ -61,10 +61,14 @@ abstract class Table implements TableInterface
 		
 		if (count($columns))
 		{
+			$columnObjects = [];
+			
 			foreach ($columns as $column)
 			{
-				$this->builder->makeColumn($this, $column);
+				$columnObjects[] = $this->builder->makeColumn($this, $column);
 			}
+			
+			return $columnObjects;
 		}
 		
 		return $this->allColumns();
