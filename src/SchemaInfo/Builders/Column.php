@@ -36,16 +36,4 @@ abstract class Column
 		
 		return $this->info;
 	}
-	
-	function __get($propertyName)
-	{
-		$info = $this->info();
-		
-		if (property_exists($info, $propertyName) == false)
-		{
-			throw new \Exception("No property [$propertyName] exists for column [" . $this->name . "]");
-		}
-		
-		return $info->$propertyName;
-	}
 }
