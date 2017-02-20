@@ -1,6 +1,8 @@
 <?php namespace SchemaInfo;
 
 use SchemaInfo\Builders\BuilderInterface;
+
+use Illuminate\Container\Container;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Builder;
 
@@ -28,9 +30,11 @@ class Schema
 	
 	public function __construct(Connection $connection = null, SchemaInfoFactory $factory = null)
 	{
+		$app = Container::getInstance();
+		
 		if ($connection === null)
 		{
-			$connection = app('db')->connection();
+			$connection = $app->make('db')->connection();
 		}
 		
 		if ($factory === null)
@@ -40,7 +44,7 @@ class Schema
 		
 		$this->factory = $factory;
 		
-		$this->builder = $this->factory->makeBuilder($connection);
+		$this->builder = $this->factory->makeBuilder($app, $connection);
 		
 		$this->cacheKey = $this->getBuilder()->getConnection()->getDatabaseName();
 		

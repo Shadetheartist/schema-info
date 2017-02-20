@@ -1,19 +1,20 @@
 <?php namespace SchemaInfo;
 
+use Illuminate\Container\Container;
 use SchemaInfo\Builders\MySql\MySqlBuilder;
 use Illuminate\Database\Connection;
 use Illuminate\Database\MySqlConnection;
 
 class SchemaInfoFactory
 {
-	public function makeBuilder(Connection $connection)
+	public function makeBuilder(Container $app, Connection $connection)
 	{
 		//for later customization via injection
 		$class = (new \ReflectionClass($connection))->getShortName();
 		
-		if (app()->bound($key = "schemaInfo.builder.$class"))
+		if ($app->bound($key = "schemaInfo.builder.$class"))
 		{
-			return app()->make($key);
+			return $app->make($key);
 		}
 		
 		if ($connection instanceof MySqlConnection)
