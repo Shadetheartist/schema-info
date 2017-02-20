@@ -3,13 +3,24 @@
 abstract class Column
 {
 	/**
-	 * Serves to shorten the amount of calls to $this->table->getSchema()->getBuilder()
-	 * @var BuilderInterface|\Illuminate\Database\Schema\Builder|null
+	 * @var BuilderInterface|\Illuminate\Database\Schema\Builder|null $builder
 	 */
 	protected $builder = null;
-	protected $table   = null;
-	protected $name    = null;
-	protected $info    = null;
+	
+	/**
+	 * @var TableInterface
+	 */
+	protected $table = null;
+	
+	/**
+	 * @var string
+	 */
+	protected $name = null;
+	
+	/**
+	 * @var array
+	 */
+	protected $info = null;
 	
 	public function __construct(TableInterface $table, $name)
 	{
@@ -18,6 +29,42 @@ abstract class Column
 		$this->builder = $table->getSchema()->getBuilder();
 	}
 	
+	/**
+	 * @return \Illuminate\Database\Schema\Builder|null|BuilderInterface
+	 */
+	public function getBuilder()
+	{
+		return $this->builder;
+	}
+	
+	/**
+	 * @return TableInterface
+	 */
+	public function table()
+	{
+		return $this->getTable();
+	}
+	
+	/**
+	 * @return TableInterface
+	 */
+	public function getTable()
+	{
+		return $this->table;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+	
+	/**
+	 * @return null|\stdClass
+	 * @throws \Exception
+	 */
 	public function info()
 	{
 		if ($this->info == null)

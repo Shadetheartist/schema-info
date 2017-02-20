@@ -5,7 +5,6 @@ use SchemaInfo\Schema;
 abstract class Table implements TableInterface
 {
 	/**
-	 * Serves to shorten the amount of calls to $this->getSchema()->getBuilder()
 	 * @var \Illuminate\Database\Schema\Builder
 	 */
 	protected $builder = null;
@@ -13,9 +12,18 @@ abstract class Table implements TableInterface
 	/**
 	 * @var Schema
 	 */
-	protected $schema           = null;
-	protected $name             = null;
-	protected $info             = null;
+	protected $schema = null;
+	
+	/**
+	 * @var string
+	 */
+	protected $name = null;
+	
+	/**
+	 * @var array
+	 */
+	protected $info = null;
+	
 	protected $columns          = [];
 	protected $allColumnsCached = false;
 	
