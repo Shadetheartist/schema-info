@@ -11,7 +11,7 @@ class SchemaInfoFactory
 	protected $factory;
 	
 	/**
-	 * @var Container
+	 * @var \Illuminate\Container\Container
 	 */
 	protected $app;
 	
@@ -22,6 +22,10 @@ class SchemaInfoFactory
 		$this->factory = $factory;
 	}
 	
+	/**
+	 * @param \Illuminate\Database\Connection|null $connection
+	 * @return \SchemaInfo\SchemaInfo
+	 */
 	public function make(Connection $connection = null)
 	{
 		if ($connection === null)
@@ -31,6 +35,6 @@ class SchemaInfoFactory
 		
 		$builder = $this->factory->make($connection);
 		
-		return new Schema($builder);
+		return new SchemaInfo($builder);
 	}
 }

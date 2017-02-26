@@ -2,7 +2,7 @@
 
 use SchemaInfo\Builders\BuilderInterface;
 use SchemaInfo\Builders\TableInterface;
-use SchemaInfo\Schema;
+use SchemaInfo\SchemaInfo;
 use Illuminate\Database\Connection;
 
 class MySqlBuilder extends \Illuminate\Database\Schema\MySqlBuilder implements BuilderInterface
@@ -22,11 +22,11 @@ class MySqlBuilder extends \Illuminate\Database\Schema\MySqlBuilder implements B
 	}
 	
 	/**
-	 * @param Schema $schema
+	 * @param SchemaInfo $schema
 	 * @param $table
 	 * @return MySqlTable
 	 */
-	public function makeTable(Schema $schema, $table)
+	public function makeTable(SchemaInfo $schema, $table)
 	{
 		return new MySqlTable($schema, $table);
 	}

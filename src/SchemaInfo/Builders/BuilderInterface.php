@@ -1,6 +1,6 @@
 <?php namespace SchemaInfo\Builders;
 
-use SchemaInfo\Schema;
+use SchemaInfo\SchemaInfo;
 use Illuminate\Database\Connection;
 
 interface BuilderInterface
@@ -8,11 +8,11 @@ interface BuilderInterface
 	function __construct(Connection $connection);
 	
 	/**
-	 * @param Schema $schema
+	 * @param SchemaInfo $schema
 	 * @param $table
 	 * @return TableInterface
 	 */
-	public function makeTable(Schema $schema, $table);
+	public function makeTable(SchemaInfo $schema, $table);
 	
 	/**
 	 * @param TableInterface $table

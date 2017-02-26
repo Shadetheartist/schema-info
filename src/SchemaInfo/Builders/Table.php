@@ -1,6 +1,6 @@
 <?php namespace SchemaInfo\Builders;
 
-use SchemaInfo\Schema;
+use SchemaInfo\SchemaInfo;
 
 abstract class Table implements TableInterface
 {
@@ -10,7 +10,7 @@ abstract class Table implements TableInterface
 	protected $builder = null;
 	
 	/**
-	 * @var Schema
+	 * @var SchemaInfo
 	 */
 	protected $schema = null;
 	
@@ -27,7 +27,7 @@ abstract class Table implements TableInterface
 	protected $columns          = [];
 	protected $allColumnsCached = false;
 	
-	public function __construct(Schema $schema, $name)
+	public function __construct(SchemaInfo $schema, $name)
 	{
 		$this->schema  = $schema;
 		$this->name    = $name;
@@ -35,7 +35,7 @@ abstract class Table implements TableInterface
 	}
 	
 	/**
-	 * @return Schema
+	 * @return SchemaInfo
 	 */
 	public function getSchema()
 	{

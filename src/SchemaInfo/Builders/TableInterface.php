@@ -1,10 +1,10 @@
 <?php namespace SchemaInfo\Builders;
 
-use SchemaInfo\Schema;
+use SchemaInfo\SchemaInfo;
 
 interface TableInterface
 {
-	function __construct(Schema $schema, $name);
+	function __construct(SchemaInfo $schema, $name);
 	
 	function info();
 	
@@ -20,7 +20,7 @@ interface TableInterface
 	function columns();
 	
 	/**
-	 * @return Schema
+	 * @return SchemaInfo
 	 */
 	function getSchema();
 	

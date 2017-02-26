@@ -6,7 +6,7 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Builder;
 
-class Schema
+class SchemaInfo
 {
 	/**
 	 * @var array
