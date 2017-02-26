@@ -1,30 +1,36 @@
 <?php namespace SchemaInfo;
 
 use Illuminate\Container\Container;
-use SchemaInfo\Builders\MySql\MySqlBuilder;
 use Illuminate\Database\Connection;
-use Illuminate\Database\MySqlConnection;
 
 class SchemaInfoFactory
 {
-	public function makeBuilder(Container $app, Connection $connection)
+	/**
+	 * @var SchemaInfoBuilderFactory
+	 */
+	protected $factory;
+	
+	/**
+	 * @var Container
+	 */
+	protected $app;
+	
+	public function __construct(Container $app, SchemaInfoBuilderFactory $factory)
 	{
-		//for later customization via injection
-		$class = (new \ReflectionClass($connection))->getShortName();
+		$this->app = $app;
 		
-		if ($app->bound($key = "schemaInfo.builder.$class"))
-		{
-			return $app->make($key);
-		}
-		
-		if ($connection instanceof MySqlConnection)
-		{
-			return new MySqlBuilder($connection);
-		}
-		
-		throw new \Exception(
-			'Could not map connection of type [' . get_class($connection) . '] to a valid Schema Builder Connection.'
-		);
+		$this->factory = $factory;
 	}
 	
+	public function make(Connection $connection = null)
+	{
+		if ($connection === null)
+		{
+			$connection = $this->app['db.connection'];
+		}
+		
+		$builder = $this->factory->make($connection);
+		
+		return new Schema($builder);
+	}
 }

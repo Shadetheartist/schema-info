@@ -16,35 +16,26 @@ class Schema
 	/**
 	 * @var BuilderInterface|Builder
 	 */
-	protected $builder = null;
+	protected $builder;
 	
 	/**
-	 * @var SchemaInfoFactory
+	 * @var SchemaInfoBuilderFactory
 	 */
-	protected $factory = null;
+	protected $factory;
 	
 	/**
 	 * @var string
 	 */
-	protected $cacheKey = null;
+	protected $cacheKey;
 	
-	public function __construct(Connection $connection = null, SchemaInfoFactory $factory = null)
+	/**
+	 * @var Container
+	 */
+	protected $app;
+	
+	public function __construct(BuilderInterface $builder)
 	{
-		$app = Container::getInstance();
-		
-		if ($connection === null)
-		{
-			$connection = $app->make('db')->connection();
-		}
-		
-		if ($factory === null)
-		{
-			$factory = new SchemaInfoFactory();
-		}
-		
-		$this->factory = $factory;
-		
-		$this->builder = $this->factory->makeBuilder($app, $connection);
+		$this->builder = $builder;
 		
 		$this->cacheKey = $this->getBuilder()->getConnection()->getDatabaseName();
 		

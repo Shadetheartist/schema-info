@@ -1,6 +1,42 @@
 # shadetheartist/schema-info
 A utility class intended to help interface with a databases' schema information in an efficient manner.
 
+## Setting Up
+
+Firstly add the schema-info dependency to your projects composer file
+
+*composer.json*
+```json
+"require": {
+    ...,
+    "shadetheartist/schema-info": "1.0.0"
+}
+```
+
+In your terminal run `composer dump-autoload`.
+
+___
+
+Secondly add the SchemaInfo service provider and facade to your projects' bootstrapping procedure via
+
+*config/app.php*
+
+```php
+'providers' => [
+    ...,
+    SchemaInfo\SchemaInfoServiceProvider::class,
+]
+
+...
+
+'aliases' => [
+    ...,
+    'SchemaInfo' => SchemaInfo\Facades\SchemaInfo::class,
+]
+```
+
+**And you're set!**
+
 ## Examples
 
 ### General Usage
@@ -10,13 +46,19 @@ A utility class intended to help interface with a databases' schema information 
 ```php
 <?php namespace App;
 
-use SchemaInfo\Schema;
+use SchemaInfo\Facades\SchemaInfo;
 
 class Example
 {
     public function example()
     {
-        $schema = new Schema();
+        $schema = SchemaInfo::make();
+    }
+   
+    public function exampleAltConnection()
+    {
+    	//connect to a different database. note: only mysql databases are currently supported.
+        $schema = SchemaInfo::make(\DB::connection('my-alternative-connection'));
     }
 }
 ```
