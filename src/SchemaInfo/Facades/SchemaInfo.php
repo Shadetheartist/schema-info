@@ -1,8 +1,10 @@
 <?php namespace SchemaInfo\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use SchemaInfo\Schema;
 
+/**
+ * @see \SchemaInfo\SchemaInfoFactory
+ */
 class SchemaInfo extends Facade
 {
 	/**
@@ -15,9 +17,4 @@ class SchemaInfo extends Facade
 		return 'schema-info';
 	}
 	
-	/**
-	 * Intellisense helper!
-	 * @return Schema
-	 */
-	public static function make(){}
 }
