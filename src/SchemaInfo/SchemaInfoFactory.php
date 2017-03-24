@@ -37,4 +37,14 @@ class SchemaInfoFactory
 		
 		return new SchemaInfo($builder);
 	}
+    
+    /**
+     * @param $table
+     *
+     * @return Builders\TableInterface
+     */
+    public function table($table)
+    {
+        return $this->make()->table($table);
+    }
 }

@@ -7,14 +7,16 @@ use Illuminate\Support\Facades\Facade;
  */
 class SchemaInfo extends Facade
 {
-	/**
-	 * Get the registered name of the component.
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor()
-	{
-		return 'schema-info';
-	}
-	
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return 'schema-info';
+    }
+    
+ 
+    
 }

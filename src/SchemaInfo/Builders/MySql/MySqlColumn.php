@@ -4,6 +4,11 @@ use SchemaInfo\Builders\Column;
 
 class MySqlColumn extends Column
 {
+    public function getIdentifier()
+    {
+        return $this->getTable()->getIdentifier() . '.' . $this->getColumnName();
+    }
+    
 	public function getTableCatalog()
 	{
 		return $this->info()->TABLE_CATALOG;

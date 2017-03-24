@@ -20,12 +20,17 @@ interface BuilderInterface
 	 * @return ColumnInterface
 	 */
 	public function makeColumn(TableInterface $table, $column);
-	
-	public function tableInfo($table);
+    
+    public function tableInfo($table);
+    
+    public function tableNames();
+    
+    public function tableNamesLike($str);
 	
 	public function columnsForTable($table);
 	
 	public function columnNamesForTable($table);
 	
 	public function columnInfo($table, $column);
+
 }

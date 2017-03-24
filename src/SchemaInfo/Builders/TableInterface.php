@@ -23,6 +23,8 @@ interface TableInterface
 	 * @return SchemaInfo
 	 */
 	function getSchema();
-	
-	function getName();
+    
+    function getName();
+    
+    function getIdentifier();
 }

@@ -4,6 +4,11 @@ use SchemaInfo\Builders\Table;
 
 class MySqlTable extends Table
 {
+    public function getIdentifier()
+    {
+        return $this->getTableSchema() . '.' . $this->getTableName();
+    }
+    
 	public function getTableCatalog()
 	{
 		return $this->info()->TABLE_CATALOG;

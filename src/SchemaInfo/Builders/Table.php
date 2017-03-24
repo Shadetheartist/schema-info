@@ -25,6 +25,7 @@ abstract class Table implements TableInterface
 	protected $info = null;
 	
 	protected $columns          = [];
+	
 	protected $allColumnsCached = false;
 	
 	public function __construct(SchemaInfo $schema, $name)
@@ -35,7 +36,7 @@ abstract class Table implements TableInterface
 	}
 	
 	/**
-	 * @return SchemaInfo
+	 * @return SchemaInfo|mixed
 	 */
 	public function getSchema()
 	{
@@ -43,13 +44,18 @@ abstract class Table implements TableInterface
 	}
 	
 	/**
-	 * @return null
+	 * @return null|string
 	 */
 	public function getName()
 	{
 		return $this->name;
 	}
-	
+    
+    /**
+     * @param $column
+     *
+     * @return ColumnInterface|mixed
+     */
 	function column($column)
 	{
 		if (isset($this->columns[$column]) == false)
@@ -59,46 +65,40 @@ abstract class Table implements TableInterface
 		
 		return $this->columns[$column];
 	}
-	
+    
+    /**
+     * @param array $columns
+     *
+     * @return ColumnInterface[]|array
+     */
 	function columns($columns = [])
 	{
-		if ($this->allColumnsCached)
-		{
-			return $this->columns;
-		}
-		
-		if (count($columns))
-		{
-			$columnObjects = [];
-			
-			foreach ($columns as $column)
-			{
-				$columnObjects[] = $this->builder->makeColumn($this, $column);
-			}
-			
-			return $columnObjects;
-		}
-		
-		return $this->allColumns();
+	    if($this->allColumnsCached)
+	    {
+            return $this->columns;
+        }
+        
+        if (count($columns) == 0)
+        {
+            $columns = $this->builder->columnNamesForTable($this->getName());
+            $this->allColumnsCached = true;
+        }
+        
+        foreach ($columns as $columnName)
+        {
+            $this->column($columnName);
+        }
+        
+        return $this->columns;
 	}
-	
-	private function allColumns()
-	{
-		$columnNames = $this->builder->columnNamesForTable($this->getName());
-		
-		foreach ($columnNames as $columnName)
-		{
-			$this->column($columnName);
-		}
-		
-		$this->allColumnsCached = true;
-		
-		return $this->columns;
-	}
-	
+    
+    /**
+     * @return \stdClass
+     * @throws \Exception
+     */
 	public function info()
 	{
-		if ($this->info == null)
+		if ($this->info === null)
 		{
 			$info = $this->builder->tableInfo($this->name);
 			
@@ -108,15 +108,37 @@ abstract class Table implements TableInterface
 				$databaseName = $this->builder->getConnection()->getDatabaseName();
 				throw new \Exception("No table [$name] exists in database [" . $databaseName . "]");
 			}
+			
 			$this->info = reset($info);
 		}
 		
 		return $this->info;
 	}
+    
+    function exists()
+    {
+        if ($this->info === null)
+        {
+            $info = $this->builder->tableInfo($this->name);
+            
+            if (count($info) == false)
+            {
+                return false;
+            }
+            
+            $this->info = reset($info);
+        }
+        
+        return true;
+    }
 	
 	function __get($propertyName)
 	{
 		return $this->column($propertyName);
 	}
-	
+    
+    function __toString()
+    {
+        return $this->getName();
+    }
 }

@@ -51,8 +51,47 @@ class MySqlBuilder extends \Illuminate\Database\Schema\MySqlBuilder implements B
 		
 		return $this->connection->select($sql, [$database, $table]);
 	}
-	
-	public function columnsForTable($table)
+    
+    public function tableNames()
+    {
+        $sql = $this->grammar->compileTableNamesForSchema();
+    
+        $database = $this->connection->getDatabaseName();
+    
+        $result = $this->connection->select($sql, [$database]);
+    
+        $tableNames = array_map(
+            function ($table)
+            {
+                return $table->table_name;
+            },
+            $result
+        );
+    
+        return $tableNames;
+    }
+    
+    public function tableNamesLike($str)
+    {
+        $sql = $this->grammar->compileTableNamesLikeForSchema();
+        
+        $database = $this->connection->getDatabaseName();
+        
+        $result = $this->connection->select($sql, [$database, $str . '%']);
+        
+        $tableNames = array_map(
+            function ($table)
+            {
+                return $table->table_name;
+            },
+            $result
+        );
+    
+        return $tableNames;
+    }
+    
+    
+    public function columnsForTable($table)
 	{
 		$sql = $this->grammar->compileColumnsForTable();
 		
@@ -73,7 +112,7 @@ class MySqlBuilder extends \Illuminate\Database\Schema\MySqlBuilder implements B
 		
 		$result = $this->connection->select($sql, [$database, $table]);
 		
-		$array_map = array_map(
+		$columnNames = array_map(
 			function ($column)
 			{
 				return $column->column_name;
@@ -81,7 +120,7 @@ class MySqlBuilder extends \Illuminate\Database\Schema\MySqlBuilder implements B
 			$result
 		);
 		
-		return $array_map;
+		return $columnNames;
 	}
 	
 	public function columnInfo($table, $column)

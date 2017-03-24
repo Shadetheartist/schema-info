@@ -10,6 +10,14 @@ interface ColumnInterface
 	 * @return TableInterface
 	 */
 	function getTable();
-	
-	function getName();
+    
+    /**
+     * @return string
+     */
+    function getName();
+    
+    /**
+     * @return string
+     */
+    function getIdentifier();
 }
