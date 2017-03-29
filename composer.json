@@ -4,7 +4,7 @@
     "description": "Analyze and navigate a databases' structure using a simple fluent api",
     "keywords": ["schema", "info", "database", "analysis", "mysql"],
     "license": "MIT",
-    "version": "1.5.1",
+    "version": "1.5.3",
     "authors": [{
         "name": "Derek Hemingson",
         "email": "shadetheartist@gmail.com"
