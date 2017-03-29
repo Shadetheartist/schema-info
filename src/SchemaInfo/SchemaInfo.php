@@ -19,11 +19,6 @@ class SchemaInfo
     protected $builder;
     
     /**
-     * @var SchemaInfoBuilderFactory
-     */
-    protected $factory;
-    
-    /**
      * @var string
      */
     protected $cacheKey;
