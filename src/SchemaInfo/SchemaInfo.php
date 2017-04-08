@@ -1,12 +1,12 @@
 <?php namespace SchemaInfo;
 
-use Grav\Database\SchemaInfo\GravMySqlTable;
 use Illuminate\Container\Container;
 use Illuminate\Database\Schema\Builder;
 use SchemaInfo\Builders\BuilderInterface;
 use SchemaInfo\Builders\TableInterface;
+use SchemaInfo\Contracts\ISchemaInfo;
 
-class SchemaInfo
+class SchemaInfo implements ISchemaInfo
 {
     /**
      * @var array

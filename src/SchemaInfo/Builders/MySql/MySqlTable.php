@@ -6,7 +6,7 @@ class MySqlTable extends Table
 {
     public function getIdentifier()
     {
-        return $this->getTableSchema() . '.' . $this->getTableName();
+        return $this->getTableName();
     }
     
 	public function getTableCatalog()

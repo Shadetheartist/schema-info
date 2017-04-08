@@ -9,7 +9,7 @@ Firstly add the schema-info dependency to your projects composer file
 ```json
 "require": {
     ...,
-    "shadetheartist/schema-info": "1.0.0"
+    "shadetheartist/schema-info": "1.5.3"
 }
 ```
 
@@ -27,12 +27,6 @@ Secondly add the SchemaInfo service provider and facade to your projects' bootst
     SchemaInfo\SchemaInfoServiceProvider::class,
 ]
 
-...
-
-'aliases' => [
-    ...,
-    'SchemaInfo' => SchemaInfo\Facades\SchemaInfo::class,
-]
 ```
 
 **And you're set!**
